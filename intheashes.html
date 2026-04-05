@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>In The Ashes — Emil Faisal Hasselberg</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="project">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="site-title" href="index.html">EMIL FAISAL HASSELBERG</a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="about.html">About me</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container prose">
+    <a class="back-link" href="index.html">← Back</a>
+
+    <article class="project-view">
+      <section class="project-intro">
+        <h1 class="page-title">In The Ashes — 2026 — Ongoing</h1>
+        <p>
+          These works are a starting point for my ongoing masters project. I want to visualize, discuss and reflect over moments I've felt as my Swedishness has been questioned and investigate how my making can bring me closer to my afghan heritage. I want to talk about different aspects of second generation immigration and the feeling of being in between nationalities.
+        </p>
+        <p>
+          In order to express my feelings and experiences connected to the context, writing has been of great importance as a method within this work. The texts serve as a basis for the creation itself and investigate the connection between writing as a bridge between thoughts, imagination, experiences and physical form.
+        </p>
+      </section>
+
+      <section class="project-section project-layout" aria-label="Snowangel">
+        <section class="project-media">
+          <figure class="project-hero">
+            <img id="projectMainImageSnowangel" src="Snowangel_1.jpg" alt="Snowangel — 2026" />
+          </figure>
+          <section class="project-gallery" id="projectGallerySnowangel" aria-label="Snowangel images"></section>
+        </section>
+
+        <section class="project-copy">
+          <h2 class="subproject-title">Snowangel — 2026</h2>
+          <p>
+            Wall hanged work built up by fabricated aluminium pieces and burnt wood
+            Dedicated to my family and siblings in Afghanistan
+          </p>
+          <p>
+            The drops on my ears brings me back,<br />
+            The sound is reminiscent of the hard rain hitting the fabric of the stroller.<br />
+            Pulled you forward, made faces that made you smile.<br />
+            The US left, Sweden too,<br />
+            Billions spent, hundreds of thousands died.<br />
+            The winds carry the ashes of their souls.<br />
+            The weapons factories make good money.<br />
+            The Taliban are now in power.<br />
+            I have three siblings left, in a homeland I've never visited,<br />
+            Ellie, I was like a father to you before you disappeared.<br />
+            Before you disappeared.<br />
+            Are you alive? Hope you are well.<br />
+            I stayed behind, wondering every day what would have happened if I had followed,<br />
+            I wonder if we'll see each other again,<br />
+            or if it's too late.
+          </p>
+        </section>
+      </section>
+
+      <section class="project-section project-layout" aria-label="In The Ashes">
+        <section class="project-media">
+          <figure class="project-hero">
+            <img id="projectMainImageAshes" src="InTheAshes_1.jpg" alt="In The Ashes — 2026 — Ongoing" />
+          </figure>
+          <section class="project-gallery" id="projectGalleryAshes" aria-label="In The Ashes images"></section>
+        </section>
+
+        <section class="project-copy">
+          <h2 class="subproject-title">To Be? — 2026</h2>
+          <p>
+            Installation of multiple casted aluminum pieces, photopolymer prints and ash.
+          </p>
+          <p>
+            To not be<br />
+            But still be<br />
+            But still not be
+          </p>
+          <p>
+            To be<br />
+            But still not be be<br />
+            But still be
+          </p>
+        </section>
+      </section>
+
+    </article>
+
+    <div class="mobile-about-wrap">
+      <a class="mobile-about-link" href="about.html">About me</a>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      const isMobileLayout = window.matchMedia("(max-width: 980px)").matches;
+
+      function initGallery(mainImageId, galleryId, files, altPrefix) {
+        const gallery = document.getElementById(galleryId);
+        const mainImage = document.getElementById(mainImageId);
+        if (!gallery || !mainImage) return;
+
+        let firstValidButton = null;
+
+        function setMainImage(src, alt) {
+          if (!src || mainImage.src === src) return;
+          mainImage.classList.add("is-loading");
+          const preload = new Image();
+          preload.onload = function () {
+            mainImage.src = src;
+            mainImage.alt = alt || "";
+            requestAnimationFrame(function () {
+              mainImage.classList.remove("is-loading");
+            });
+          };
+          preload.onerror = function () {
+            mainImage.classList.remove("is-loading");
+          };
+          preload.src = src;
+        }
+
+        files.forEach((file, index) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "project-gallery-item";
+
+          const img = document.createElement("img");
+          img.loading = "lazy";
+          img.src = file;
+          img.alt = `${altPrefix} image ${index + 1}`;
+          img.onerror = function () {
+            button.remove();
+          };
+
+          if (!isMobileLayout) {
+            button.addEventListener("click", function () {
+              setMainImage(img.src, img.alt);
+              gallery.querySelectorAll(".project-gallery-item.active").forEach(el => el.classList.remove("active"));
+              button.classList.add("active");
+            });
+          }
+
+          button.appendChild(img);
+          gallery.appendChild(button);
+          if (!firstValidButton) firstValidButton = button;
+        });
+
+        if (firstValidButton && !isMobileLayout) {
+          firstValidButton.classList.add("active");
+        }
+      }
+
+      initGallery(
+        "projectMainImageAshes",
+        "projectGalleryAshes",
+        [
+          "InTheAshes_1.jpg",
+          "InTheAshes_2.jpg",
+          "InTheAshes_3.jpg",
+          "InTheAshes_4.jpg"
+        ],
+        "In The Ashes"
+      );
+
+      initGallery(
+        "projectMainImageSnowangel",
+        "projectGallerySnowangel",
+        [
+          "Snowangel_1.jpg",
+          "Snowangel_2.jpg",
+          "Snowangel_3.jpg",
+          "Snowangel_4.jpg",
+          "Snowangel_5.jpg"
+        ],
+        "Snowangel"
+      );
+    })();
+  </script>
+</body>
+</html>
+

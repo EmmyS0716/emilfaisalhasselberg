@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log Swing — Emil Faisal Hasselberg</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="project">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="site-title" href="index.html">EMIL FAISAL HASSELBERG</a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="about.html">About me</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container prose">
+    <a class="back-link" href="index.html">← Back</a>
+    <article class="project-view project-layout">
+      <section class="project-media">
+        <figure class="project-hero">
+          <img id="projectMainImage" src="LogSwing_1.jpg" alt="Log Swing — 2025" />
+        </figure>
+        <section class="project-gallery" id="projectGallery" aria-label="Log Swing images"></section>
+      </section>
+      <section class="project-copy">
+        <h1 class="page-title">Log Swing — 2025</h1>
+        <p>An interactive artwork in the form of a swing, consisting of a log created in metal.</p>
+        <p>
+          The artwork is based on reflecting our contemporary relation to the forest and forestry. A swing, consisting of a log replicated in metal, embodies the play of childhood, timber tongs depicts the small scale to the big scale forest industries, but also the development from a forestry by hand towards today's forest machines. The bark grey, the wood, the internal coloured in gold. I want to discuss and investigate questions such as; Where is the balance between the use of nature as an industrial resource? What does forests mean to us as individuals, and as a collective? My aim for this interactive installation is to create a space for reflection, a platform for discussion and understanding within a polarised question.
+        </p>
+      </section>
+    </article>
+    <div class="mobile-about-wrap">
+      <a class="mobile-about-link" href="about.html">About me</a>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      const gallery = document.getElementById("projectGallery");
+      const mainImage = document.getElementById("projectMainImage");
+      if (!gallery || !mainImage) return;
+      const folder = "";
+      const baseName = "LogSwing_";
+      const ext = ".jpg";
+      const maxImages = 5;
+      const isMobileLayout = window.matchMedia("(max-width: 980px)").matches;
+      let firstValidButton = null;
+      function setMainImage(src, alt) {
+        if (!src || mainImage.src === src) return;
+        mainImage.classList.add("is-loading");
+        const preload = new Image();
+        preload.onload = function () {
+          mainImage.src = src;
+          mainImage.alt = alt || "";
+          requestAnimationFrame(function () { mainImage.classList.remove("is-loading"); });
+        };
+        preload.onerror = function () { mainImage.classList.remove("is-loading"); };
+        preload.src = src;
+      }
+      for (let i = 1; i <= maxImages; i++) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "project-gallery-item";
+        const img = document.createElement("img");
+        img.loading = "lazy";
+        img.src = `${folder}${baseName}${i}${ext}`;
+        img.alt = `Log Swing image ${i}`;
+        img.onerror = function () { button.remove(); };
+        if (!isMobileLayout) {
+          button.addEventListener("click", function () {
+            setMainImage(img.src, img.alt);
+            gallery.querySelectorAll(".project-gallery-item.active").forEach(el => el.classList.remove("active"));
+            button.classList.add("active");
+          });
+        }
+        button.appendChild(img);
+        gallery.appendChild(button);
+        if (!firstValidButton) firstValidButton = button;
+      }
+      if (firstValidButton && !isMobileLayout) firstValidButton.classList.add("active");
+    })();
+  </script>
+</body>
+</html>
+

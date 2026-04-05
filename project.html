@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project — Emil Faisal Hasselberg</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="project">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="site-title" href="index.html">EMIL FAISAL HASSELBERG</a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="about.html">About me</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container prose">
+    <a class="back-link" href="index.html">← Back</a>
+
+    <article class="project-view project-layout">
+      <section class="project-media">
+        <figure class="project-hero">
+          <img id="projectMainImage" src="Firewood_1.jpg" alt="Firewood, 2024–ongoing" />
+        </figure>
+
+        <section class="project-gallery" id="projectGallery" aria-label="Firewood images"></section>
+      </section>
+
+      <section class="project-copy">
+        <h1 class="page-title">Firewood — 2024 – ongoing</h1>
+
+        <p>
+          Body of work consisting of firewood logs replicated in metal.
+        </p>
+
+        <p>
+          Since a few years back, I live in a small remote village located in the north of Sweden, surrounded by forest. The pulp factory is located a couple of miles away, where many people in the area work, and the landscape is significantly embossed by both the historical and current forest industry. When I reflect about my work in relation to the place, it feels like it goes hand in hand. The mountains are increasingly characterised by the bald spots that grow wider. The fishing places on the mire are nowadays wide open fields and on the way to the city the piles of lumber rises from the mill. At home, the kitchen becomes warm from the fire in the stove.
+        </p>
+
+      </section>
+    </article>
+
+    <div class="mobile-about-wrap">
+      <a class="mobile-about-link" href="about.html">About me</a>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      const gallery = document.getElementById("projectGallery");
+      const mainImage = document.getElementById("projectMainImage");
+      if (!gallery) return;
+      if (!mainImage) return;
+
+      const folder = "";
+      const files = [
+        "Firewood_1.jpg",
+        "Firewood_2.jpg",
+        "Firewood_3.jpg",
+        "Firewood_4.jpg",
+        "Firewood_5.jpg",
+        "Firewood_6.jpg",
+        "Firewood_7.jpg",
+        "Firewood_8.jpg",
+        "Firewood_9.jpg",
+        "Firewood_10.jpg",
+        "Firewood_11.jpg",
+        "Firewood_12.jpg",
+        "Firewood_13.jpg"
+      ];
+      let firstValidButton = null;
+      const isMobileLayout = window.matchMedia("(max-width: 980px)").matches;
+
+      function setMainImage(src, alt) {
+        if (!src || mainImage.src === src) return;
+
+        mainImage.classList.add("is-loading");
+        const preload = new Image();
+
+        preload.onload = function () {
+          mainImage.src = src;
+          mainImage.alt = alt || "";
+          requestAnimationFrame(function () {
+            mainImage.classList.remove("is-loading");
+          });
+        };
+
+        preload.onerror = function () {
+          mainImage.classList.remove("is-loading");
+        };
+
+        preload.src = src;
+      }
+
+      files.forEach((file, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "project-gallery-item";
+
+        const img = document.createElement("img");
+        img.loading = "lazy";
+        img.src = `${folder}${file}`;
+        img.alt = `Firewood image ${index + 1}`;
+
+        img.onerror = function () {
+          button.remove();
+        };
+
+        if (!isMobileLayout) {
+          button.addEventListener("click", function () {
+            setMainImage(img.src, img.alt);
+            gallery.querySelectorAll(".project-gallery-item.active")
+              .forEach(el => el.classList.remove("active"));
+            button.classList.add("active");
+          });
+        }
+
+        button.appendChild(img);
+        gallery.appendChild(button);
+
+        if (!firstValidButton) {
+          firstValidButton = button;
+        }
+      });
+
+      if (firstValidButton && !isMobileLayout) {
+        firstValidButton.classList.add("active");
+      }
+    })();
+  </script>
+</body>
+</html>
+

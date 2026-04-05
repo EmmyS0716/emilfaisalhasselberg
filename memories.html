@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memories — 2024 — 2025 — Emil Faisal Hasselberg</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="project">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="site-title" href="index.html">EMIL FAISAL HASSELBERG</a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="about.html">About me</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container prose">
+    <a class="back-link" href="index.html">← Back</a>
+    <article class="project-view project-layout">
+      <section class="project-media">
+        <figure class="project-hero"><img id="projectMainImage" src="Memories_1.jpeg" alt="Memories — 2024 — 2025" /></figure>
+        <section class="project-gallery" id="projectGallery" aria-label="Memories images"></section>
+      </section>
+      <section class="project-copy">
+        <h1 class="page-title">Memories — 2024 — 2025</h1>
+        <p>Mobile installation of annual rings in copper.</p>
+        <p>
+          The tall trees that had varnished, the soft soil, of mosses and lichens, had been ripped up from the ground and teared apart, the only trace of the blueberry rise were the broken petals laying around in the piles of branches and dirt around the tree stumps.
+        </p>
+        <p>
+          Memories brings up the topic and concept of clearcutting. The aim is to examine the moment when our special places in the forests get cut down, but also to raise the question if our ways of forestry are sustainable in case of biological diversity and the negative impact on the countryside.
+        </p>
+        <p>
+          With this work I also want to illustrate how something of value that is lost still can be with us without existing. The annual rings tell the story of the past, but yet portray the present. They are the memories and storytellers of what once was.
+        </p>
+      </section>
+    </article>
+    <div class="mobile-about-wrap"><a class="mobile-about-link" href="about.html">About me</a></div>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      const gallery = document.getElementById("projectGallery");
+      const mainImage = document.getElementById("projectMainImage");
+      if (!gallery || !mainImage) return;
+      const folder = "";
+      const baseName = "Memories_";
+      const ext = ".jpeg";
+      const maxImages = 4;
+      const isMobileLayout = window.matchMedia("(max-width: 980px)").matches;
+      let firstValidButton = null;
+      function setMainImage(src, alt) { if (!src || mainImage.src === src) return; mainImage.classList.add("is-loading"); const preload = new Image(); preload.onload = function () { mainImage.src = src; mainImage.alt = alt || ""; requestAnimationFrame(function () { mainImage.classList.remove("is-loading"); }); }; preload.onerror = function () { mainImage.classList.remove("is-loading"); }; preload.src = src; }
+      for (let i = 1; i <= maxImages; i++) {
+        const button = document.createElement("button"); button.type = "button"; button.className = "project-gallery-item";
+        const img = document.createElement("img"); img.loading = "lazy"; img.src = `${folder}${baseName}${i}${ext}`; img.alt = `Memories image ${i}`; img.onerror = function () { button.remove(); };
+        if (!isMobileLayout) { button.addEventListener("click", function () { setMainImage(img.src, img.alt); gallery.querySelectorAll(".project-gallery-item.active").forEach(el => el.classList.remove("active")); button.classList.add("active"); }); }
+        button.appendChild(img); gallery.appendChild(button); if (!firstValidButton) firstValidButton = button;
+      }
+      if (firstValidButton && !isMobileLayout) firstValidButton.classList.add("active");
+    })();
+  </script>
+</body>
+</html>
+
